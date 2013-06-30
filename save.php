@@ -20,6 +20,7 @@
       $tableName = $wpdb->prefix."VIAJANTES";
       if(!is_email($email))
           echo json_encode(array('status'=>'error','msg'=>"Email inválido"));
+
       $sql = $wpdb->prepare("SELECT * FROM $tableName WHERE EMAIL = '%s'",$email);
       $result = $wpdb->get_results($sql);
       if(count($result)==0){

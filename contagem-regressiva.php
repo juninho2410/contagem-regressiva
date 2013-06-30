@@ -48,17 +48,21 @@ class ContagemRegressiva{
   $pathPlugin = substr(strrchr(dirname(__FILE__),DIRECTORY_SEPARATOR),1).DIRECTORY_SEPARATOR.basename(__FILE__);
   require_once ('contagem-regressiva-widget-form.php');
   require_once ('contagem-regressiva-widget-display.php');
-  
-  add_action('init', 'my_init');
+  if(function_exists('add_action'))
+    add_action('init', 'my_init');
    
-  // Função ativar
-  register_activation_hook( $pathPlugin, array('ContagemRegressiva','ativar'));
-   
-  // Função desativar
-  register_uninstall_hook( $pathPlugin, array('ContagemRegressiva','desativar'));
+    // Função ativar
+     if(function_exists('register_activation_hook'))
+        register_activation_hook( $pathPlugin, array('ContagemRegressiva','ativar'));
+     
+    // Função desativar
+    if(function_exists('register_uninstall_hook'))
+      register_uninstall_hook( $pathPlugin, array('ContagemRegressiva','desativar'));
+      
+    if(function_exists('add_action'))
+      add_action('widgets_init', 'contagem_regressiva');
   
   
-  add_action('widgets_init', 'contagem_regressiva');
   
   //Ação de criar menu
   //add_action('admin_menu', array('ContagemRegressiva','criarMenu'));
