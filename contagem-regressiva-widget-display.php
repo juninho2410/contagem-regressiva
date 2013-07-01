@@ -43,7 +43,7 @@
         /*$data = str_replace("-","/",$data);
         $data = explode ("/", $data);
         return  $data[2] . "/" . $data[1] . "/". $data[0];*/
-        echo '<ul>';
+        echo '<ul class="display-list">';
               foreach( $dados as $dado) {
                  $time_inicial = strtotime(date('Y-m-d'));
                  $time_final = strtotime($dado['data']);
@@ -53,9 +53,9 @@
                      echo'<li>';
                      echo '<div class="title">';
                      if($dias ==0)
-                        echo "Embarca Hoje!";
+                        echo $instancia['msg_today'];
                      else if($dias ==1)
-                        echo "Embarca Amanha!";
+                        echo $instancia['msg_tomorrow'];
                      else
                         echo "Faltam $dias dias";
                      echo '</div>';
@@ -102,6 +102,8 @@
         $widget['title_widget'] = (string)$instancia['title_widget'];
         ?>
         <p><label for="<?php echo $this->get_field_id('title_widget'); ?>"><input id="<?php echo $this->get_field_id('title_widget'); ?>" name="<?php echo $this->get_field_name('title_widget'); ?>" type="text" value="<?=$widget['title_widget'];?>" /> <?php _e('Título do Widget'); ?></label></p>
+        <p><label for="<?php echo $this->get_field_id('msg_today'); ?>"><input id="<?php echo $this->get_field_id('msg_today'); ?>" name="<?php echo $this->get_field_name('msg_today'); ?>" type="text" value="<?=$widget['msg_today'];?>" /> <?php _e('Mensagem Hoje'); ?></label></p>
+        <p><label for="<?php echo $this->get_field_id('msg_tomorrow'); ?>"><input id="<?php echo $this->get_field_id('msg_tomorrow'); ?>" name="<?php echo $this->get_field_name('msg_tomorrow'); ?>" type="text" value="<?=$widget['msg_tomorrow'];?>" /> <?php _e('Mensagem Amanhã'); ?></label></p>
         <?php	
       }
       

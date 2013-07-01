@@ -1,7 +1,7 @@
 <?php
  //require_once("../../../wp-blog-header.php");
       
- require_once( "../../../wp-config.php" );
+ require_once( "../../../wp-load.php" );
  global $wpdb;
  if(
   isset($_POST['nome']) && 
@@ -18,9 +18,19 @@
       $dataSaida = sprintf("%4d-%02d-%02d",intval($_POST['anoSaida']),intval($_POST['mesSaida']),intval($_POST['diaSaida']));
       $dataChegada = sprintf("%4d-%02d-%02d",intval($_POST['anoChegada']),intval($_POST['mesChegada']),intval($_POST['diaChegada']));
       $tableName = $wpdb->prefix."VIAJANTES";
-      if(!is_email($email))
+      $er = "/@|#|&|\$|\¨|\*/";
+      if( preg_match($er,$nome)){
+          echo json_encode(array('status'=>'error','msg'=>"Há caracteres inválidos.\nNão são permitidos caracteres como $#@¨&*"));
+          return false;
+      }
+      if(is_email($nome)){
+          echo json_encode(array('status'=>'error','msg'=>"Não é possível cadastrar e-mail como nome. Cadastre um nome que aparecerá no site"));
+          return false;
+      }
+      if(!is_email($email)){
           echo json_encode(array('status'=>'error','msg'=>"Email inválido"));
-
+          return false;
+      }
       $sql = $wpdb->prepare("SELECT * FROM $tableName WHERE EMAIL = '%s'",$email);
       $result = $wpdb->get_results($sql);
       if(count($result)==0){
