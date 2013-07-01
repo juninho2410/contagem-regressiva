@@ -1,7 +1,7 @@
 <?php 
 /*
 Plugin Name: Contagem Regressiva - Coisas de Orlando
-Plugin URI: 
+Plugin URI: https://github.com/juninho2410/contagem-regressiva
 Description: Cadastra e exibe futuros viajantes de Orlando
 Version: 1.0
 Author: José Mendes
