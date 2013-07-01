@@ -45,6 +45,8 @@
                       alert('Viagem cadastrada com sucesso!');
                       $('#nome').val('');
                       $('#email').val('');
+                      tb_remove();
+                      location.reload(1);
                       
                     }
                     else{
