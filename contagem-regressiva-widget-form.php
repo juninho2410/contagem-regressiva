@@ -115,6 +115,7 @@ if(class_exists('WP_Widget')){
        */
       public function form($instancia) {
         $widget['title_widget'] = (string)$instancia['title_widget'];
+        $widget['link_image_banner'] = (string)$instancia['link_image_banner'];
         ?>
         <p><label for="<?php echo $this->get_field_id('title_widget'); ?>"><input id="<?php echo $this->get_field_id('title_widget'); ?>" name="<?php echo $this->get_field_name('title_widget'); ?>" type="text" value="<?=$widget['title_widget'];?>" /> <?php _e('Título do Widget'); ?></label></p>
         <p><label for="<?php echo $this->get_field_id('link_image_banner'); ?>"><input id="<?php echo $this->get_field_id('link_image_banner'); ?>" name="<?php echo $this->get_field_name('link_image_banner'); ?>" type="text" value="<?=$widget['link_image_banner'];?>" /> <?php _e('Link Imagem do Banner'); ?></label></p>

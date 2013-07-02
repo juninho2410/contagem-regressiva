@@ -100,6 +100,8 @@
        */
       public function form($instancia) {
         $widget['title_widget'] = (string)$instancia['title_widget'];
+        $widget['msg_today'] = (string)$instancia['msg_today'];
+        $widget['msg_tomorrow'] = (string)$instancia['msg_tomorrow'];
         ?>
         <p><label for="<?php echo $this->get_field_id('title_widget'); ?>"><input id="<?php echo $this->get_field_id('title_widget'); ?>" name="<?php echo $this->get_field_name('title_widget'); ?>" type="text" value="<?=$widget['title_widget'];?>" /> <?php _e('Título do Widget'); ?></label></p>
         <p><label for="<?php echo $this->get_field_id('msg_today'); ?>"><input id="<?php echo $this->get_field_id('msg_today'); ?>" name="<?php echo $this->get_field_name('msg_today'); ?>" type="text" value="<?=$widget['msg_today'];?>" /> <?php _e('Mensagem Hoje'); ?></label></p>
