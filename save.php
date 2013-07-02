@@ -18,8 +18,9 @@
       $dataSaida = sprintf("%4d-%02d-%02d",intval($_POST['anoSaida']),intval($_POST['mesSaida']),intval($_POST['diaSaida']));
       $dataChegada = sprintf("%4d-%02d-%02d",intval($_POST['anoChegada']),intval($_POST['mesChegada']),intval($_POST['diaChegada']));
       $tableName = $wpdb->prefix."VIAJANTES";
-      $er = "/@|#|&|\$|\¨|\*/";
-      if( preg_match($er,$nome)){
+      $er = "/^[a-zA-Z0-9]+/";
+      
+      if(!preg_match($er,$nome)){
           echo json_encode(array('status'=>'error','msg'=>"Há caracteres inválidos.\nNão são permitidos caracteres como $#@¨&*"));
           return false;
       }
@@ -31,7 +32,7 @@
           echo json_encode(array('status'=>'error','msg'=>"Email inválido"));
           return false;
       }
-      $sql = $wpdb->prepare("SELECT * FROM $tableName WHERE EMAIL = '%s'",$email);
+      $sql = $wpdb->prepare("SELECT * FROM $tableName WHERE EMAIL = '%s' AND DATA_CHEGADA > NOW()",$email);
       $result = $wpdb->get_results($sql);
       if(count($result)==0){
           $data=array('NOME'=>$nome,'EMAIL'=>$email,'DATA_SAIDA'=>$dataSaida,'DATA_CHEGADA'=>$dataChegada);
