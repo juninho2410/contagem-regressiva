@@ -13,7 +13,8 @@
       return $result;
   }
    wp_enqueue_script('jquery');
-
+if ( current_user_can('manage_options')) {
+ 
 ?>
 <h2>Viagens Cadastradas</h2>
 
@@ -82,3 +83,7 @@
         })
       })
 </script>
+<?php }
+else{
+    echo "Você não tem permissão para acessar esta tela";
+} ?>
