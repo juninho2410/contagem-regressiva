@@ -21,12 +21,9 @@ class ContagemRegressiva{
     $ddl = "DROP TABLE ".$wpdb->prefix."VIAJANTES";
     $wpdb->query($ddl); 
  }
- public function criarMenu(){
- define( 'CONTAGEMREGRESSIVA_PATH', plugin_dir_path(__FILE__));
- 
- add_menu_page('Contagem Regressiva', 'Contagem Regressiva',10, CONTAGEMREGRESSIVA_PATH.'/contagem-regressiva-config.php');
- 
- add_submenu_page(plugin_dir_path(__FILE__).'contagem-regressiva/contagem-regressiva-config.php', 'Sub pagina 01', 'titulo 01', 10, 'contagem-regressiva/contagem-regressiva-sub-pagina.php');
+ public function criarMenu(){ 
+    add_menu_page('Contagem Regressiva', 'Contagem Regressiva','10', 'contagem-regressiva/contagem-regressiva-config.php'); 
+    add_submenu_page('contagem-regressiva/contagem-regressiva-config.php', 'Cadastrados', 'Cadastrados', 10, 'contagem-regressiva/contagem-regressiva-cadastrados.php');
  
  }   
 }
@@ -36,9 +33,7 @@ class ContagemRegressiva{
     // Adicionar o widget
      register_widget('FormWidget');
      register_widget('DisplayWidget');
-
-    // Adicionar o controle ao widget
-    //register_widget_control('Posts Mais Quentes', 'configurar_posts_mais_quentes');
+     
   }
   function my_init() {
     if (!is_admin()) {
@@ -65,7 +60,8 @@ class ContagemRegressiva{
   
   
   //Ação de criar menu
-  //add_action('admin_menu', array('ContagemRegressiva','criarMenu'));
+    if(function_exists('add_action'))
+      add_action('admin_menu', array('ContagemRegressiva','criarMenu'));
    
   //Filtro do conteúdo
   //add_filter("the_content", array("ContagemRegressiva","adicionaFrase"));
