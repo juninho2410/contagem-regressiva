@@ -11,7 +11,8 @@
   isset($_POST['anoSaida']) &&
   isset($_POST['diaChegada']) && 
   isset($_POST['mesChegada']) && 
-  isset($_POST['anoChegada'])
+  isset($_POST['anoChegada']) &&
+  wp_verify_nonce($_POST['name_of_nonce_field'],'name_of_my_action')
   ){
       $nome = trim(sanitize_text_field($_POST['nome']));
       $email =  trim(sanitize_text_field($_POST['email']));

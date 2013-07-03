@@ -35,6 +35,7 @@ if(class_exists('WP_Widget')){
         ?>
         <div id="my-content-id" style="display:none;">
         <form method="post" action="<?=plugin_dir_url(__FILE__);?>save.php" id="contagemRegressiva">
+           <?php wp_nonce_field('name_of_my_action','name_of_nonce_field'); ?>
           <h4>Cadastre sua viagem</h4>
           <p><label for="nome">Nome:</label><input type="text" name="nome" id="nome" /></p>
           <p><label for="email">Email:</label><input type="text" name="email" id="email" /></p>
