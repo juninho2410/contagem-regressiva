@@ -40,6 +40,11 @@
             </tr>
      <?php endforeach; ?>
      </tbody>
+     <tfoot>
+        <tr>
+          <td colspan="3">Total de cadastrados: <?=count($viajantes);?></td>
+        </tr>
+     </tfoot>
 </table>
 <script type="text/javascript">
        jQuery(function ($) {
