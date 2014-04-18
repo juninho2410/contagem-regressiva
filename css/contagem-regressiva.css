@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.display-list li{
+  width:100%;
+  font-size: 0.9em;
+}
+.display-list .title{
+  width:100%;
+  font-size: 0.9em;
+  font-weight:bold;
+  text-transform:uppercase;
+  display:block;
+}

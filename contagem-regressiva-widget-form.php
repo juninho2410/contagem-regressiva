@@ -79,7 +79,7 @@ if(class_exists('WP_Widget')){
         </form>
         </div>
         
-        <a href="#TB_inline?width=300&height=350&inlineId=my-content-id" class="thickbox">
+        <a href="#TB_inline?width=329&height=345&inlineId=my-content-id" class="thickbox">
             <?php if($instancia['link_image_banner']!="") {?>
               <img src="<?=$instancia['link_image_banner'];?>" alt=" Contagem regressiva cadastre-se aqui!"/>
             <?php } else{?>

@@ -43,6 +43,7 @@
         /*$data = str_replace("-","/",$data);
         $data = explode ("/", $data);
         return  $data[2] . "/" . $data[1] . "/". $data[0];*/
+        wp_enqueue_style( 'style-name', plugins_url('css/contagem-regressiva.css', __FILE__) );
         echo '<ul class="display-list">';
               foreach( $dados as $dado) {
                  $time_inicial = strtotime(date('Y-m-d'));
