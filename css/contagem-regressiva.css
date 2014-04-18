@@ -11,3 +11,31 @@
   text-transform:uppercase;
   display:block;
 }
+#contagemRegressiva h4{
+  font-size:1.3em;
+  text-transform:uppercase;
+  font-weight:bold;
+  text-align:center;
+  
+}
+#contagemRegressiva input[type=text],
+#contagemRegressiva input[type=submit]{
+  width:100%;
+
+}
+#contagemRegressiva #diaChegada,
+#contagemRegressiva #diaSaida
+{
+  width:20%;
+  
+}
+#contagemRegressiva #mesChegada,
+#contagemRegressiva #mesSaida
+{
+   width:39%;
+}
+#contagemRegressiva #anoChegada,
+#contagemRegressiva #anoSaida
+{
+   width:39%;
+}
