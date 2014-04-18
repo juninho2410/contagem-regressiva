@@ -13,7 +13,7 @@ if(class_exists('WP_Widget')){
        * Construtor
        */
       public function FormWidget() {
-        parent::WP_Widget(false, $name = 'Formulario de Inscrição');
+        parent::WP_Widget(false, $name = 'Formulario de Inscrição - Contagem Regressiva');
       }
       
       /**
@@ -35,7 +35,7 @@ if(class_exists('WP_Widget')){
         ?>
         <div id="my-content-id" style="display:none;">
         <form method="post" action="<?=plugin_dir_url(__FILE__);?>save.php" id="contagemRegressiva">
-           <?php wp_nonce_field('name_of_my_action','name_of_nonce_field'); ?>
+           <?php  //wp_nonce_field('name_of_my_action','name_of_nonce_field'); ?>
           <h4>Cadastre sua viagem</h4>
           <p><label for="nome">Nome:</label><input type="text" name="nome" id="nome" /></p>
           <p><label for="email">Email:</label><input type="text" name="email" id="email" /></p>
@@ -90,6 +90,10 @@ if(class_exists('WP_Widget')){
         <?php
         echo $argumentos['after_widget'];
         wp_enqueue_script('validateForm',plugins_url('validateForm.js' , __FILE__ ),array( 'jquery' ));
+        wp_localize_script( 'validateForm', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'nonce'=>wp_create_nonce( 'MyAjaxNonce' ) ) ); // setting ajaxurl
+        
+       // THE FUNCTION TO RESPONSE THIS AJAX REQUEST IS ON MAIN FILE (contagem-regressiva.php)
+      
         add_thickbox();
 
 
@@ -123,6 +127,9 @@ if(class_exists('WP_Widget')){
         <?php	
       }
       
+      
+      
     }
+    
 }
 ?>

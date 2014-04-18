@@ -11,6 +11,17 @@
   text-transform:uppercase;
   display:block;
 }
+#TB_ajaxContent{
+  width:auto !important;
+}
+@media (max-width:480px){
+  #TB_window{
+    width:100% !important;
+    height:100% !important;
+    margin-top:-74%!important;
+     margin-left: -50%!important;
+  }
+}
 #contagemRegressiva h4{
   font-size:1.3em;
   text-transform:uppercase;
@@ -37,5 +48,5 @@
 #contagemRegressiva #anoChegada,
 #contagemRegressiva #anoSaida
 {
-   width:39%;
+   width:38%;
 }

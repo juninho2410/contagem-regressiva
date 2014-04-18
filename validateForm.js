@@ -1,6 +1,6 @@
 
         jQuery(function ($) {
-            $('#contagemRegressiva').on('submit',function(){
+            $('#contagemRegressiva').on('submit',function(e){
                 var nome=$('#nome').val();
                 var email = $('#email').val();
                 var diaChegada = $('#diaChegada').val();
@@ -9,6 +9,20 @@
                 var diaSaida = $('#diaSaida').val();
                 var mesSaida = $('#mesSaida').val();
                 var anoSaida = $('#anoSaida').val();
+                var request = {
+                          nonce: MyAjax.nonce,
+                          nome: nome,
+                          email:email,
+                          diaChegada:diaChegada,
+                          mesChegada:mesChegada,
+                          anoChegada:anoChegada,
+                          diaSaida:diaSaida,
+                          mesSaida:mesSaida,
+                          anoSaida:anoSaida
+                        
+                        }                
+                
+                
                 
                 var dataChegada =  diaChegada+"/"+mesChegada+"/"+anoChegada;
                 //var dataChegada =  anoChegada+"-"+mesChegada+"-"+diaChegada;
@@ -29,37 +43,37 @@
                     return false;
                 }
                 else{
-            
-                $.ajax({
-                  type: "POST",
-                  url:  $(this).attr('action'),
-                  data:  $(this).serialize(),
-                  dataType: "json",
-                  processData :false,            
-                  beforeSend: function () {
-                   
-                  },
-                  success: function(data) {
-               
-                    if(data['status'] ==="ok"){
-                      alert('Viagem cadastrada com sucesso!');
-                      $('#nome').val('');
-                      $('#email').val('');
-                      tb_remove();
-                      location.reload(1);
-                      
-                    }
-                    else{
-                      alert('Erro: '+data['msg']);
-                    }
-                  
-                  },
-                  error: function (request) {
+                
+                
+                jQuery.post(
+                    // see tip #1 for how we declare global javascript variables
+                    MyAjax.ajaxurl,
+                    {
+                        // here we declare the parameters to send along with the request
+                        // this means the following action hooks will be fired:
+                        // wp_ajax_nopriv_myajax-submit and wp_ajax_myajax-submit
+                        action : 'save_form',
+                 
+                        // other parameters can be added along with "action"
+                        data :request
+                    },
+                    function( data ) {
+                          //data = JSON.parse(data);
+                              if(data['status'] ==="ok"){
+                                  alert('Viagem cadastrada com sucesso!');
+                                  $('#nome').val('');
+                                  $('#email').val('');
+                                  tb_remove();
+                                  location.reload(1);
                           
-                          
-                          }
-                });
-                            return false;
+                              }
+                              else{
+                                alert('Erro: '+ data['msg']);
+                              }
+                    }
+                );
+              
+                           e.preventDefault();
               } 
                         
           })
