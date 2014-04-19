@@ -3,7 +3,7 @@
 Plugin Name: Contagem Regressiva - Coisas de Orlando
 Plugin URI: https://github.com/juninho2410/contagem-regressiva
 Description: Cadastra e exibe futuros viajantes de Orlando
-Version: 1.0
+Version: 1.1
 Author: José Mendes
 Author URI: 
 */
@@ -27,71 +27,38 @@ class ContagemRegressiva{
  
  }   
 }
-/*FUNÇÃO PARA SALVAR OS DADOS NO FORMULÁRIO*/
-function save_form(){
+
+   /* APAGAR OS USUARIOS CADASTRADOS NA BASE DA CONTAGEM REGRESSIVA*/
+   function delete_traveler(){
+       global $wpdb;
+       $data = $_POST['data'];
+     $tableName = $wpdb->prefix ."VIAJANTES";
+     header( "Content-Type: application/json" );
+     if(isset($data['email']) && isset($data['data'])){
+          $email = trim(sanitize_text_field($data['email']));
+          $data = trim(sanitize_text_field($data['data']));
+
+          if($email == NULL && $data == NULL){
+            $msg=utf8_encode("Email ou data não enviado");
+              echo json_encode(array('status'=>'error','msg'=>$msg));
+              die();
+          }
+          
+          $sql = $wpdb->prepare("DELETE FROM $tableName WHERE EMAIL = '%s' AND DATA_CHEGADA = '%s'",$email,$data);
+          $result = $wpdb->query($sql);
+          
+          if($result > 0){
+                $msg=utf8_encode("Viajante Excluído com sucesso!");
+                echo json_encode(array('status'=>'ok','msg'=>$msg));
+          }
+          else{
+              $msg = utf8_encode("Erro ao excluir Viajante!");
+              echo json_encode(array('status'=>'error','msg'=>$msg));
+          }
+      }
+      die();
    
-     $nonce = $_POST['data']['nonce']; 
-     $data= $_POST['data'];
-     
-     global $wpdb;
-     if(
-        isset($data['nome']) && 
-        isset($data['email']) && 
-        isset($data['diaSaida']) && 
-        isset($data['mesSaida']) && 
-        isset($data['anoSaida']) &&
-        isset($data['diaChegada']) && 
-        isset($data['mesChegada']) && 
-        isset($data['anoChegada']) &&
-        wp_verify_nonce($nonce,"MyAjaxNonce")
-        ){
-            $nome = trim(sanitize_text_field($data['nome']));
-            $email =  trim(sanitize_text_field($data['email']));
-            $dataSaida = sprintf("%4d-%02d-%02d",intval($data['anoSaida']),intval($data['mesSaida']),intval($data['diaSaida']));
-            $dataChegada = sprintf("%4d-%02d-%02d",intval($data['anoChegada']),intval($data['mesChegada']),intval($data['diaChegada']));
-            $tableName = $wpdb->prefix."VIAJANTES";
-            $er = "/^[a-zA-Z0-9]+/";
-            header( "Content-Type: application/json" );
-            if(!preg_match($er,$nome)){
-                echo json_encode(array('status'=>'error','msg'=>"Há caracteres inválidos.\nNão são permitidos caracteres como $#@¨&*"));
-                die();
-            }
-            if(is_email($nome)){
-                echo json_encode(array('status'=>'error','msg'=>"Não é possível cadastrar e-mail como nome. Cadastre um nome que aparecerá no site"));
-                die();
-            }
-            if(!is_email($email)){
-                echo json_encode(array('status'=>'error','msg'=>"Email inválido"));
-                die();
-            }
-            $sql = $wpdb->prepare("SELECT * FROM $tableName WHERE EMAIL = '%s' AND DATA_CHEGADA >= DATE(NOW())",$email);
-   
-            $result = $wpdb->get_results($sql);
-            if(count($result)==0){
-                $data=array('NOME'=>$nome,'EMAIL'=>$email,'DATA_SAIDA'=>$dataSaida,'DATA_CHEGADA'=>$dataChegada);
-                $format = array('%s','%s','%s','%s');
-                if($wpdb->insert($tableName,$data,$format)){
-                  echo json_encode(array('status'=>'ok','msg'=>'Viagem cadastrada com sucesso!'));
-                  die();
-                }
-                else{
-                  $msg = utf8_encode("ERRO no INSERT: $wpdb->print_error()");
-                  echo json_encode(array('status'=>'error','msg'=>$msg));
-                  die();
-                }
-            }
-            else{
-                $msg = utf8_encode("Você já está cadastrado!");
-                echo json_encode(array('status'=>'error','msg'=>$msg));
-                die();
-            }
-            
-            
-              
-        
-        }
-     //die();// wordpress may print out a spurious zero without this - can be particularly bad if using json
-     }
+   }
 // Ativar o widget
   function contagem_regressiva()
   {
@@ -103,10 +70,14 @@ function save_form(){
   function my_init() {
     if (!is_admin()) {
       wp_enqueue_script('jquery');
-      add_action( 'wp_ajax_nopriv_save_form', 'save_form' ); // need this to serve non logged in users
+      add_action( 'wp_ajax_nopriv_save_form', 'save_form' ); 
+      /* need this to serve non logged in users. Function in file contagem-regressiva-widget-form.php */
       
     }
+    /* need this to serve logged in users. Function in file contagem-regressiva-widget-form.php */
     add_action( 'wp_ajax_save_form', 'save_form' );
+    
+    add_action( 'wp_ajax_delete_traveler', 'delete_traveler' );
   }
  
   $pathPlugin = substr(strrchr(dirname(__FILE__),DIRECTORY_SEPARATOR),1).DIRECTORY_SEPARATOR.basename(__FILE__);

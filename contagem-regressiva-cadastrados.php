@@ -13,6 +13,8 @@
       return $result;
   }
    wp_enqueue_script('jquery');
+   wp_enqueue_script('admin-script-co',plugins_url('js/admin.js' , __FILE__ ),array( 'jquery' ));
+   wp_localize_script('admin-script-co', 'MyAjaxAdmin', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) , 'nonce'=>wp_create_nonce( 'MyAjaxAdminNonce' ) ) ); // setting ajaxurl
 if ( current_user_can('manage_options')) {
  
 ?>
@@ -36,7 +38,7 @@ if ( current_user_can('manage_options')) {
               <td><?=convertData($viajante->DATA_CHEGADA);?></td>
               <td><?=convertData($viajante->DATA_SAIDA);?></td>
               <td>                
-                <a href="<?=plugin_dir_url(__FILE__);?>delete.php?email=<?=$viajante->EMAIL;?>&data=<?=$viajante->DATA_CHEGADA;?>" class="btn-delete-viajante">Excluir</a>
+                <a href="#" data-data-chegada="<?=$viajante->DATA_CHEGADA;?>"  data-email="<?=$viajante->EMAIL;?>" class="btn-delete-viajante">Excluir</a>
               </td>
             </tr>
      <?php endforeach; ?>
@@ -47,42 +49,6 @@ if ( current_user_can('manage_options')) {
         </tr>
      </tfoot>
 </table>
-<script type="text/javascript">
-       jQuery(function ($) {
-       
-        $('.btn-delete-viajante').click(function(e){
-            var that = $(this);
-            $.ajax({
-                  type: "GET",
-                  url:  $(this).attr('href'),
-                  dataType: "json",
-                  processData :false,            
-                  beforeSend: function () {
-                   
-                  },
-                  success: function(data) {
-               
-                    if(data['status'] ==="ok"){
-                      alert(data['msg']);
-                      that.closest('tr').remove();
-                      return false;
-                    }
-                    else{
-                      alert('Erro: '+data['msg']);
-                      return false;
-                    }
-                  
-                  },
-                  error: function (request) {
-                      alert('Erro: '+data['msg']);
-                      return false;      
-                  }
-                });
-                return false;
-        
-        })
-      })
-</script>
 <?php }
 else{
     echo "Você não tem permissão para acessar esta tela";
